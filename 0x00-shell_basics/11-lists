@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -al . ../ /bash | awk 'NF{print "Files in " $9 ":"};NF{print $0}'
+ls -al . ../ /bash
