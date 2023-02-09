@@ -1,9 +1,2 @@
 #!/bin/bash
-
-ls -al
-
-cd ..
-ls -al
-
-cd /boot
-ls -al
+ls -al . ../ /bash | awk 'NF{print "Files in " $9 ":"};NF{print $0}'
