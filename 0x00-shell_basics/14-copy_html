@@ -1,4 +1,2 @@
 #!/bin/bash
-current_dir=/root/alx-system_engineering-devops/0x00-shell_basics
-parent_dir=/root/alx-system_engineering-devops
-cp -u /root/alx-system_engineering-devops/0x00-shell_basics/*.html /root/alx-system_engineering-devops
+cp -u *.html ../
