@@ -1,2 +1,2 @@
 #!/bin/bash
-chmod ugo+x $dir
+chmod u+x,g+x,o+x .
