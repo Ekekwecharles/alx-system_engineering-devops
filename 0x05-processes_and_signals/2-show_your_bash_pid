@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# This script displays lines containing the bash word based on task 1
+# You cannot use pgrep, and third line must contain the directive below
+# shellcheck disable=SC2009
+
+ps -axuf | grep "bash"

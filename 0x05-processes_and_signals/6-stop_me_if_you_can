@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This script stops 4-to_infinity_and_beyond process
+# 4-to_infinity_and_beyond will run on terminal #0
+# and this script will run on a second terminal #1
+# You cannot use kill or killall
+
+pkill -f 4-to_infinity_and_beyond

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This script tries to stop 7-highlander process
+# 7-highlander will run on terminal #0
+# and this script will run on a second terminal #1
+# You cannot use kill or killall
+
+pkill -f 7-highlander

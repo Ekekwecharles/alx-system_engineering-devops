@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# This script kills the 7-highlander process
+# 7-highlander will run on terminal #0
+# and this script will run on a second terminal #1
+
+kill -9 "$(pgrep -f highlander)"
