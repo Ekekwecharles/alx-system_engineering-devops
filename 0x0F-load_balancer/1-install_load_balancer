@@ -4,25 +4,53 @@
 # Distribute requests using a roundrobin algorithm
 # Make sure that HAProxy can be managed via an init script
 # Install and configure HAproxy on my lb-01 server.
+#!/usr/bin/env bash
+# Configuring HAProxy load balancer
+
+#This should be run on a new server without any prior installations
+#or existing configuations of whatsover to avoid complications
+
+# update the package list 
 sudo apt-get -y update
-apt-get -y install haproxy
 
-# edit config file
-server_config=\
+# install required packages
+sudo apt-get -y install software-properties-common
+
+# Add the HAProxy repository and install HAProxy 2.0
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
+sudo app-get -y update
+sudo apt-get -y install haproxy
+
+# HAProxy configuration
+balancer="\
+frontend haproxy_balancer
+    bind *:80
+    mode http
+    default_backend webservers
+
+backend webservers
+    balance roundrobin
+    server 283893-web-01 54.237.18.47:80 check
+    server 283893-web-02 54.164.253.166:80 check
 "
-frontend snow-frontend
-        bind *:80
-        mode http
-        default_backend snow-backend
-backend snow-backend
-        balance roundrobin
-        server 283893-web-01 54.237.18.47:80 check
-        server 283893-web-02 54.164.253.166:80 check
-"
-echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
-# enable haproxy to be started by init script
+# Add your HAProxy configuration to haproxy.cfg
+sudo cp -a /etc/haproxy/haproxy.cfg{,.orig}
+echo "$balancer" | sudo tee -a /etc/haproxy/haproxy.cfg
 
-echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+# Define the external/load balancer IP address and hostname
+lb_ip="54.88.112.209"
+hostname="283893-lb-01"
 
-sudo service haproxy restart
+# Check if the entry already exists in /etc/hosts
+if ! grep -q "$lb_ip $hostname" /etc/hosts; then
+    # If the entry doesn't exist, add it using sed
+    sudo sed -i "/localhost/a $lb_ip $hostname" /etc/hosts
+    echo "Added $hostname entry to /etc/hosts"
+else
+    echo "Entry for $hostname already exists in /etc/hosts"
+fi
+
+
+# Start the HAProxy service
+sudo service haproxy start
