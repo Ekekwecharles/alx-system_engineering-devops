@@ -1,4 +1,16 @@
 # Configure ssh client so that you can connect to a server without typing a password.
+
+
+# This configuration is in the /etc/ssh/ssh_config file, and it is a system-wide configuration that applies to all users on the local machine. 
+Host *
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials no
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no
+
+# If you want to override or add specific configurations for a particular user or host, you should use the ~/.ssh/config file
 Host *
     HostName 54.237.18.47
     User ubuntu
