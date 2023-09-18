@@ -1,18 +1,29 @@
 #!/usr/bin/env bash
 # write a Bash script that will display information about the subdomains
 
-dns_config () {
-    script=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
-    echo "$2 $script" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+
+# This function retrieves and display information about a subdomain
+
+domain_information () {
+	# Perform Dns lookup for the subdomain under the specified domain
+	line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+	# Extract relevant information and print it
+	echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
 
+
+# Check the number of arguments passed to the script
 if [ "$#" == 1 ]
 then
-  dns_config "$1" "www"
-  dns_config "$1" "lb-01"
-  dns_config "$1" "web-01"
-  dns_config "$1" "web-02"
+	# If there is only one argument,
+	# Call the domain_information func with predefined subdomain names
+	domain_information "$1" "www"
+	domain_information "$1" "lb-01"
+  	domain_information "$1" "web-01"
+	domain_information "$1" "web-02"
 elif [ "$#" == 2 ]
 then
-  dns_config "$1" "$2"
+	# uf there are two arguments, call the domain_information
+	# function with the provided subdomain name
+	domain_information "$1" "$2"
 fi
